@@ -15,12 +15,12 @@ contract MyToken is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     constructor() ERC721("MyToken", "MTK") {}
 
-    string imageURI = "https://ipfs.io/ipfs/QmfZ6txFKSi7ukredN7c8dCPaqejAE3bY2VnNxnLnqLhA9";
+    string imageURI = "ipfs://QmfZ6txFKSi7ukredN7c8dCPaqejAE3bY2VnNxnLnqLhA9";
 
     event OwnershipApprovalRequest(address ownerAddress, uint256 tokenId, string secret);
 
     function _baseURI() internal pure override returns (string memory) {
-        return "";
+        return "data:application/json;base64,";
     }
 
     function safeMint(address to) public onlyOwner {
@@ -76,9 +76,16 @@ contract MyToken is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         returns (string memory)
     {
         string memory tokenIdToString = _uint2str(tokenId);
-        return Base64.encode(bytes(abi.encodePacked(
-            '{"name": "NFT Ticket #', tokenIdToString, '", "description": "An NFT based version of traditional Event Tickets", "attributes": "", "image: "', imageURI, '"}'
-        )));
+        return string(abi.encodePacked(
+                    "data:application/json;base64,",
+                    Base64.encode(
+                        bytes(abi.encodePacked(
+                            '{"name": "NFT Ticket #', tokenIdToString, '", "description": "An NFT based version of traditional Event Tickets", "attributes": "", "image": "', imageURI, '"}'
+                            )
+                        )
+                    )
+                )
+            );
     }
 
     function supportsInterface(bytes4 interfaceId)

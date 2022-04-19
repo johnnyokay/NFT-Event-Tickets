@@ -5,10 +5,14 @@ async function main() {
 
     console.log("Account balance:", (await deployer.getBalance()).toString());
 
-    const Token = await ethers.getContractFactory("MyToken");
-    const token = await Token.deploy();
+    const Ticket = await ethers.getContractFactory("Ticket");
+    const ticket = await Ticket.deploy();
 
-    console.log("Token address:", token.address);
+    const Marketplace = await ethers.getContractFactory("Marketplace");
+    const marketplace = await Marketplace.deploy();
+
+    console.log("Ticket address:", ticket.address);
+    console.log("Marketplace address:", marketplace.address);
 }
 
 main()
